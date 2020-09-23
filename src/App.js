@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 // Importing routing components
 import DynamicRouteComp from './routingComps/DynamicRouteComp'
@@ -12,7 +12,6 @@ import Signup from './routingComps/Signup'
 // Main Application component where the website is routed by different URLs
 class App extends Component {
   render () {
-    const loggedIn = true
     const supportsHistory = 'pushState' in window.history
     return (
       <div className='App'>
