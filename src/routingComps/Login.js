@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import AuthApi from '../AuthApi'
+import App from '../App'
 const Bcrypt = require('bcryptjs')
+
 
 
 // Login page component where existing users can login to their accounts
@@ -35,8 +39,11 @@ class Login extends Component {
           if (!Bcrypt.compareSync(password, res.data.password)){
             alert('wrong password')
           }
+          // If the user manages to login, a cookie is created with their username and the user is redirected to the user's dashboard
           else {
-            alert('Right password')
+            console.log('correct password')
+            Cookies.set('username', username)
+            window.location = '/user-dashboard'
           }
         } 
       })

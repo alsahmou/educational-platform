@@ -8,6 +8,7 @@ import Homepage from './routingComps/Homepage'
 import NotFound from './routingComps/NotFound'
 import Login from './routingComps/Login'
 import Signup from './routingComps/Signup'
+import UserDashboard from './routingComps/UserDashboard'
 
 // Main Application component where the website is routed by different URLs
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
             <Route exact path='/about' component={Homepage} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' component={Signup} />
+            <Route exact path='/user-dashboard' component={UserDashboard} />
             <Route path='/posts/:slug' component={DynamicRouteComp} />
             <Route component={NotFound} />
           </Switch>
