@@ -58,16 +58,8 @@ router.route('/:id').delete((req, res) => {
 router.route('/update/:id').post((req, res) => {
   User.findByIdAndUpdate(req.params.id)
     .then(user => {
-      user.username = req.body.username
-      user.password = req.body.password
-      user.name = req.body.name
       user.aboutMe = req.body.aboutMe
       user.profilePicture = req.body.profilePicture
-      user.securityAnswer1 = req.body.securityAnswer1
-      user.securityAnswer2 = req.body.securityAnswer2
-      user.securityAnswer3 = req.body.securityAnswer3
-      user.isAdmin = req.body.isAdmin
-
       user.save()
         .then(() => res.json('User updated!'))
         .catch(err => res.status(400).json('Error :' + err))

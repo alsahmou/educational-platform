@@ -12,6 +12,7 @@ class Signup extends Component {
       username: null,
       email: null,
       aboutMe: null,
+      profilePicture: null,
       securityAnswer1: null,
       securityAnswer2: null,
       securityAnswer3: null,
@@ -25,6 +26,7 @@ class Signup extends Component {
     this.inputUsernameRef = React.createRef()
     this.inputEmailRef = React.createRef()
     this.inputAboutMeRef = React.createRef()
+    this.inputProfilePicture = React.createRef()
     this.inputSecurityAnswer1Ref = React.createRef()
     this.inputSecurityAnswer2Ref = React.createRef()
     this.inputSecurityAnswer3Ref = React.createRef()
@@ -70,6 +72,7 @@ class Signup extends Component {
       username: '',
       email: '',
       aboutMe: '',
+      profilePicture: '',
       securityAnswer1: '',
       securityAnswer2: '',
       securityAnswer3: '',
@@ -85,6 +88,7 @@ class Signup extends Component {
     const {username} = this.state
     const {email} = this.state
     const {aboutMe} = this.state
+    const {profilePicture} = this.state
     const {securityAnswer1} = this.state
     const {securityAnswer2} = this.state
     const {securityAnswer3} = this.state
@@ -105,6 +109,7 @@ class Signup extends Component {
           <label>Username:<input ref={this.inputUsernameRef} type='text' placeholder='Username' value={username} name='username' required={true} onChange={this.handleInputChange}/></label><br></br>
           <label>Email:<input ref={this.inputEmailRef} type='email' placeholder='Email' value={email} name='email' required={true} onChange={this.handleInputChange}/></label><br></br>
           <label>About me:<textarea ref={this.inputAboutMeRef} type='text-area' placeholder='About me' value={aboutMe} name='aboutMe' required={false} onChange={this.handleInputChange}/></label><br></br>
+          <label>Profile Picture:<textarea ref={this.inputProfilePicture} type='text-area' placeholder='Profile Picture' value={profilePicture} name='profilePicture' required={false} onChange={this.handleInputChange}/></label><br></br>
           <label>Security Question 1:<input ref={this.inputSecurityAnswer1Ref} type='text' placeholder='Security Answer' value={securityAnswer1} name='securityAnswer1' required={true} onChange={this.handleInputChange}/></label><br></br>
           <label>Security Question 2:<input ref={this.inputSecurityAnswer2Ref} type='text' placeholder='Security Answer' value={securityAnswer2} name='securityAnswer2' required={true} onChange={this.handleInputChange}/></label><br></br>
           <label>Security Question 3:<input ref={this.inputSecurityAnswer3Ref} type='text' placeholder='Security Answer' value={securityAnswer3} name='securityAnswer3' required={true} onChange={this.handleInputChange}/></label><br></br>

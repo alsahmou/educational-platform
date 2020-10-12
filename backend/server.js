@@ -22,9 +22,11 @@ connection.once('open', () => {
 // Defining the routers used in users.js and projects.js file
 const userRouter = require('./routes/users')
 const projectRouter = require('./routes/projects')
+const adminProjectRouter = require('./routes/adminProjects')
 
 app.use('/users', userRouter)
 app.use('/projects', projectRouter)
+app.use('/adminProjects', adminProjectRouter)
 
 // Running the application on the port previously defined
 app.listen(port, () => {
