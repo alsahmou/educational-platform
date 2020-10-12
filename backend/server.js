@@ -19,10 +19,12 @@ connection.once('open', () => {
   console.log('MongoDB database connection established successfully')
 })
 
-// Defining the routers used in users.js file
+// Defining the routers used in users.js and projects.js file
 const userRouter = require('./routes/users')
+const projectRouter = require('./routes/projects')
 
 app.use('/users', userRouter)
+app.use('/projects', projectRouter)
 
 // Running the application on the port previously defined
 app.listen(port, () => {

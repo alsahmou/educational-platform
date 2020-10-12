@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 class Signup extends Component {
-    // Constructing the form fields with inital values 
+  // Constructing the form fields with inital values 
   constructor(props){
     super(props)
     this.state = {

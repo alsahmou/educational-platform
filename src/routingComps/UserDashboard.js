@@ -24,11 +24,17 @@ class UserDashboard extends Component {
       })
   }
 
+  handleLogOut = (event) => {
+    Cookies.remove('username')
+    window.location='./'
+  }
+
   render () {
     return (
       <div>
         <h1>Welcome to the user dashboard</h1>
         <h1>{this.state.aboutMe}</h1>
+        <p><button onClick={this.handleLogOut}>Logout</button></p>
       </div>
     )
   }
