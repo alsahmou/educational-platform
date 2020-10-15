@@ -8,7 +8,7 @@ router.route('/').get((req, res) => {
 })
 
 router.route('/:id').get((req, res) => {
-  AdminProject.findById(req.params.id)
+  AdminProject.find({ username: req.params.id })
     .then(projects => res.json(projects))
     .catch(err => res.status(400).json('Error: ' + err))
 })

@@ -29,18 +29,31 @@ class UserDashboard extends Component {
         isAdmin: String(response.data.isAdmin),
         userId: response.data._id
       })
+      if (this.state.isAdmin == 'true') {
+        console.log('if condition entered')
+        axios.get('http://localhost:5000/adminProjects/' + username)
+        .then(response => {
+          this.setState({projects: response.data})
+          console.log(response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      }
+      else {
+        console.log('else statement')
+        axios.get('http://localhost:5000/projects/' + username)
+          .then(response => {
+            this.setState({projects: response.data})
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        }
       })
       .catch((error) => {
         console.log(error)
-      })
-
-    axios.get('http://localhost:5000/projects/' + username)
-      .then(response => {
-        this.setState({projects: response.data})
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      })    
   }
   setEditView = () => {
 		this.setState({
@@ -135,7 +148,35 @@ class UserDashboard extends Component {
   }
 
   displayAdminView = () => {
-    return <div>This is the admin view</div>
+    return <div>
+      <h1>Welcome to the user dashboard {this.state.username}</h1>
+        {this.state.isEditView ? 
+          this.displayEditView() :
+          this.displayDefaultView()}
+        <h3>Admin Projects</h3>
+        <table className='table'>
+          <thead className="thead-light">
+            <tr>
+              <th>Project Name</th>
+              <th>Participants Number</th>
+              <th>Project Points</th>
+              <th>Group Project?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.projects.map((project) => {
+              return <tr>
+                <td>{project.projectName}</td>
+                <td>{project.participantsNumber}</td>
+                <td>{project.projectPoints}</td>
+                <td>{String(project.isGroup)}</td>
+              </tr>
+            })}
+          </tbody>
+        </table>
+        <p><button onClick={this.handleLogOut}>Logout</button></p>
+
+        </div>
 
   }
 
