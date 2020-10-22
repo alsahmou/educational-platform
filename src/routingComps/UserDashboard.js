@@ -19,8 +19,7 @@ class UserDashboard extends Component {
 
   // Get request is sent to the server to return responses with the user's info by setting the state's parameters 
   componentDidMount () {
-    console.log('edit mode', this.state.isEditView)
-    const username  = Cookies.get('username')
+    const username  = 'alymaly'
     axios.get('http://localhost:5000/users/' + username)
       .then(response => {
         this.setState({ username: Cookies.get('username'), 
@@ -30,18 +29,15 @@ class UserDashboard extends Component {
         userId: response.data._id
       })
       if (this.state.isAdmin == 'true') {
-        console.log('if condition entered')
         axios.get('http://localhost:5000/adminProjects/' + username)
         .then(response => {
           this.setState({projects: response.data})
-          console.log(response.data)
         })
         .catch((error) => {
           console.log(error)
         })
       }
       else {
-        console.log('else statement')
         axios.get('http://localhost:5000/projects/' + username)
           .then(response => {
             this.setState({projects: response.data})
@@ -187,7 +183,6 @@ class UserDashboard extends Component {
   }
 
   render () {
-    console.log('edit view', this.state.isEditView)
     if (this.state.isAdmin == 'true'){
       return (	
         <div>

@@ -27,26 +27,18 @@ class Login extends Component {
     const { username, password } = this.state
 
     //Sending an axios request to get the username from the DB 
-    axios.get('http://localhost:5000/users/'+username)
+    axios.get('http://localhost:5000/users/' + username + '/' + password)
       .then(res => {
         // If the result is null then the username doesn't exist
-        if (res.data === null) {
-          alert('username doesnt exist')
+        if (res.data.length === 0) {
+          alert('username or password are incorrect')
         }
-        // If the user exists, then the password stored in the DB is validated with the input password
-        // Bcrypt is used since the stored password is encrypted
         else {
-          if (!Bcrypt.compareSync(password, res.data.password)){
-            alert('wrong password')
-          }
-          // If the user manages to login, a cookie is created with their username and the user is redirected to the user's dashboard
-          else {
-            console.log('correct password')
-            Cookies.set('username', username)
-            window.location = '/user-dashboard'
-          }
-        } 
-      })
+          console.log('correct password')
+          window.location = '/user-dashboard'
+        }
+      } 
+    )
   }
 
   // Changes the value of the state value while the user is inputting into the form fields

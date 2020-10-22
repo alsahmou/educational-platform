@@ -1,3 +1,4 @@
+
 // Variables declaration
 const router = require('express').Router()
 const User = require('../models/user.model')
@@ -42,8 +43,20 @@ router.route('/add').post((req, res) => {
 
 // Finds a user using their username, returns the user object unless there is an error which shows
 router.route('/:username').get((req, res) => {
+  console.log('session in get route', req.session)
   User.findOne({ username: req.params.username })
     .then(user => res.json(user))
+    .catch(err => res.status(400).json('Error :' + err))
+})
+
+// Finds a user using their username, returns the user object unless there is an error which shows
+router.route('/:username/:password').get((req, res) => {
+  User.find({ username: req.params.username, password: req.params.password })
+    .then(user => {
+      req.session.username = req.params.username
+      console.log(req.session.username)
+      return res.json(user)
+    })
     .catch(err => res.status(400).json('Error :' + err))
 })
 

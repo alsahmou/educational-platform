@@ -1,7 +1,9 @@
+
 // Variables declaration
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const session = require('express-session')
 
 require('dotenv').config()
 
@@ -23,6 +25,12 @@ connection.once('open', () => {
 const userRouter = require('./routes/users')
 const projectRouter = require('./routes/projects')
 const adminProjectRouter = require('./routes/adminProjects')
+
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
+
+// Access the session as req.session
+app.get('/', function (req, res, next) {
+})
 
 app.use('/users', userRouter)
 app.use('/projects', projectRouter)
