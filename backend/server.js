@@ -1,4 +1,3 @@
-
 // Variables declaration
 const express = require('express')
 const cors = require('cors')
@@ -8,10 +7,11 @@ const router = require('express').Router()
 
 require('dotenv').config()
 
+// Express app creation and port defintion
 const app = express()
 const port = process.env.PORT || 5000
 
-app.use(cors({origin: true, credentials: true}))
+app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 
 // MongoDB connection, uri is captured from .env file where the key is stored then mongoose connects using it
@@ -22,51 +22,21 @@ connection.once('open', () => {
   console.log('MongoDB database connection established successfully')
 })
 
-// Defining the routers used in users.js and projects.js file
+// Defining the routers used across the application
 const userRouter = require('./routes/users')
 const projectRouter = require('./routes/projects')
 const adminProjectRouter = require('./routes/adminProjects')
 
-router.route('/login').get((req, res) => {
-  console.log('login route')
-})
-
-// router.route('/').get((req, res) => {
-//   console.log(req.session)
-//   if (req.session.username) {
-//     req.session.username += 1
-//     res.setHeader('Content-Type', 'text/html')
-//     res.write('<p>views: ' + req.session.username + '</p>')
-//     res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-//     res.end()
-//   } else {
-//     req.session.username = 'sasdasd'
-//     res.end('welcome to the session demo. refresh!')
-//   }
-// })
+// Logout route to end current session
 router.route('/logout').get((req, res) => {
-  console.log(req.session)
   req.session.destroy()
-  res.send('asdsad')
+  res.send('Session deleted')
 })
 
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
+// Session creation with session length imported from .env file
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: parseInt(process.env.SESSION_LENGTH) } }))
 
-// router.route('/about').get((req, res) => {
-//   console.log('about')
-//   console.log(req.session)
-//   if (req.session.username) {
-//     res.setHeader('Content-Type', 'text/html')
-//     res.write('<p>views: ' + req.session.username + '</p>')
-//     res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-//     res.end()
-//   } else {
-//     req.session.username = 'sasdasd'
-//     res.end('welcome to the session demo. refresh!')
-//   }
-//   console.log(req.session)
-// })
-
+// Using the routes inside the applicatioj
 app.use(router)
 app.use('/users', userRouter)
 app.use('/projects', projectRouter)

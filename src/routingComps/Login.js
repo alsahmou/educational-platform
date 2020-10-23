@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import AuthApi from '../AuthApi'
 import App from '../App'
-const Bcrypt = require('bcryptjs')
-
-
 
 // Login page component where existing users can login to their accounts
 class Login extends Component {
@@ -29,7 +26,6 @@ class Login extends Component {
     //Sending an axios request to get the username from the DB 
     axios.get('http://localhost:5000/users/' + username + '/' + password, {withCredentials: true})
       .then(res => {
-        
         // If the result is null then the username doesn't exist
         if (res.data.length === 0) {
           alert('username or password are incorrect')

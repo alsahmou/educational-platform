@@ -6,7 +6,6 @@ const Bcrypt = require('bcryptjs')
 
 // Find all users functions, to be adjusted accordingly in the project for future usage
 router.route('/').get((req, res) => {
-  console.log('req session username in req function', req.session.username)
   User.find()
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err))
@@ -42,34 +41,20 @@ router.route('/add').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err))
 })
 
-// Finds a user using their username, returns the user object unless there is an error which shows
+// Finds a user using their username in the session, returns the user object unless there is an error which shows
 router.route('/dashboard').get((req, res) => {
-  console.log('req session username in userdashboard', req.session.username)
   User.findOne({ username: req.session.username })
     .then(user => res.json(user))
     .catch(err => res.status(400).json('Error :' + err))
 })
 
-// router.route('/').get((req, res) => {
-//   console.log(req.session)
-//   if (req.session.username) {
-//     req.session.username += 1
-//     res.setHeader('Content-Type', 'text/html')
-//     res.write('<p>views: ' + req.session.username + '</p>')
-//     res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-//     res.end()
-//   } else {
-//     req.session.username = 'sasdasd'
-//     res.end('welcome to the session demo. refresh!')
-//   }
-// })
-
 // Finds a user using their username, returns the user object unless there is an error which shows
+// Session username is set after a user is found to the user's username
 router.route('/:username/:password').get((req, res) => {
-  req.session.username = req.params.username
 
   User.find({ username: req.params.username, password: req.params.password })
     .then(user => {
+      req.session.username = req.params.username
       return res.json(user)
     })
     .catch(err => res.status(400).json('Error :' + err))
