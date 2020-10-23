@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Cookies from 'js-cookie'
 import axios from 'axios'
+import { session } from 'passport'
 
 class UserDashboard extends Component {
   // Username is fetched from cookies to display user's info on the page
@@ -19,10 +20,14 @@ class UserDashboard extends Component {
 
   // Get request is sent to the server to return responses with the user's info by setting the state's parameters 
   componentDidMount () {
-    const username  = 'alymaly'
-    axios.get('http://localhost:5000/users/' + username)
+    const username  = null
+    axios.get('http://localhost:5000/users/dashboard', {withCredentials: true})
       .then(response => {
-        this.setState({ username: Cookies.get('username'), 
+        if (response.data == null){
+          console.log('no response')
+          window.location = '/login'
+        }
+        this.setState({ username: response.data.username, 
         aboutMe: response.data.aboutMe, 
         profilePicture: response.data.profilePicture,
         isAdmin: String(response.data.isAdmin),
@@ -49,7 +54,7 @@ class UserDashboard extends Component {
       })
       .catch((error) => {
         console.log(error)
-      })    
+      })
   }
   setEditView = () => {
 		this.setState({
@@ -178,8 +183,21 @@ class UserDashboard extends Component {
 
 
   handleLogOut = (event) => {
-    Cookies.remove('username')
-    window.location='./'
+    Cookies.remove()
+
+    axios.get('http://localhost:5000/logout', {withCredentials: true})
+      .then(res => {
+        console.log('axios in logout')
+        Cookies.remove()
+        console.log('axios after cookies removal')
+        window.location = './'
+      } 
+    )
+      .catch((error) => {
+        console.log(error)
+      }) 
+    
+
   }
 
   render () {

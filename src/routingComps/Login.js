@@ -27,8 +27,9 @@ class Login extends Component {
     const { username, password } = this.state
 
     //Sending an axios request to get the username from the DB 
-    axios.get('http://localhost:5000/users/' + username + '/' + password)
+    axios.get('http://localhost:5000/users/' + username + '/' + password, {withCredentials: true})
       .then(res => {
+        
         // If the result is null then the username doesn't exist
         if (res.data.length === 0) {
           alert('username or password are incorrect')
@@ -39,6 +40,9 @@ class Login extends Component {
         }
       } 
     )
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   // Changes the value of the state value while the user is inputting into the form fields
