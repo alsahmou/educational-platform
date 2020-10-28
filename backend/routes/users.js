@@ -49,13 +49,23 @@ router.route('/dashboard').get((req, res) => {
 })
 
 // Finds a user using their username, returns the user object unless there is an error which shows
-// Session username is set after a user is found to the user's username
+// Session username is set after a user is found to the user's username and the password is confirmed
+// Bcrypt compare is used to compare input password with encrypted password in the DB
 router.route('/:username/:password').get((req, res) => {
-
-  User.find({ username: req.params.username, password: req.params.password })
+  User.find({ username: req.params.username })
     .then(user => {
-      req.session.username = req.params.username
-      return res.json(user)
+      Bcrypt.compare(req.params.password, user[0].password, function (err, response) {
+        if (err) {
+          console.log('error')
+        }
+        if (response) {
+          req.session.username = req.params.username
+          return res.json(user)
+        }
+        else {
+          return res.json([])
+        }
+      })
     })
     .catch(err => res.status(400).json('Error :' + err))
 })
