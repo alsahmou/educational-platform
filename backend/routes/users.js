@@ -42,7 +42,7 @@ router.route('/add').post((req, res) => {
 })
 
 // Finds a user using their username in the session, returns the user object unless there is an error which shows
-router.route('/dashboard').get((req, res) => {
+router.route('/getinfo').get((req, res) => {
   User.findOne({ username: req.session.username })
     .then(user => res.json(user))
     .catch(err => res.status(400).json('Error :' + err))
