@@ -43,4 +43,15 @@ router.route('/add').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err))
 })
 
+router.route('/adduser/:id').post((req, res) => {
+  AdminProject.findById(req.params.id)
+    .then(projects => {
+      projects.users = projects.users.concat(req.body.username);
+      projects.save()
+        .then(() => res.json('User added!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+}); 
+
 module.exports = router
