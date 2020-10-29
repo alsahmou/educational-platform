@@ -21,7 +21,7 @@ class UserDashboard extends Component {
   // Get request is sent to the server to return responses with the user's info by setting the state's parameters 
   componentDidMount () {
     const username  = null
-    axios.get('http://localhost:5000/users/dashboard', {withCredentials: true})
+    axios.get('http://localhost:5000/users/getinfo', {withCredentials: true})
       .then(response => {
         if (response.data == null){
           console.log('no response')
