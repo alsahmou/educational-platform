@@ -12,6 +12,7 @@ import Signup from './routingComps/Signup'
 import UserDashboard from './routingComps/UserDashboard'
 import Newsfeed from './routingComps/Newsfeed'
 import CreateProject from './routingComps/CreateProject'
+import LeaderboardComp from './routingComps/Leaderboard'
 
 // Main Application component where the website is routed by different URLs
 class App extends Component {
@@ -28,6 +29,7 @@ class App extends Component {
             <Route exact path='/user-dashboard' component={UserDashboard} />
             <Route exact path='/newsfeed' component={Newsfeed} />
             <Route exact path='/CreateProject' component={CreateProject} />
+            <Route exact path='/leaderboard' component={LeaderboardComp} />
             <Route path='/posts/:slug' component={DynamicRouteComp} />
             <Route component={NotFound} />
           </Switch>
