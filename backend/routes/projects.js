@@ -8,6 +8,13 @@ router.route('/getinfo').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err))
 })
 
+// Returns all graded projects associated with a specific username
+router.route('/getGraded').get((req, res) => {
+  Project.find({ username: req.session.username, isGraded: 'true' })
+    .then(projects => res.json(projects))
+    .catch(err => res.status(400).json('Error: ' + err))
+})
+
 // Add project function, the project object is created using the following parameters that are passed through the request body
 router.route('/add').post((req, res) => {
   const username = req.body.username

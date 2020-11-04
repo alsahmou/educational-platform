@@ -9,6 +9,7 @@ class Homepage extends Component {
         <h1>Welcome to alraw media!</h1>
         <Link className='login' to='/login/'>Login</Link>
         <Link className='signup' to='/signup/'>Signup</Link>
+        <Link className='leaderboard' to='/leaderboard/'>leaderboard</Link>
       </div>
     )
   }
