@@ -6,6 +6,7 @@ class LeaderboardComp extends Component {
       <div>
         This is the leaderboard
         Leaderboards are awesome
+        I love leaderboards
       </div>
     )
   }
