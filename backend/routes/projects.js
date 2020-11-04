@@ -2,8 +2,9 @@ const router = require('express').Router()
 const Project = require('../models/project.model')
 
 // Returns all projects associated with a specific username
-router.route('/:id').get((req, res) => {
-  Project.find({ username: req.params.id })
+router.route('/getinfo').get((req, res) => {
+  console.log(req.params.username)
+  Project.find({ username: req.session.username })
     .then(projects => res.json(projects))
     .catch(err => res.status(400).json('Error: ' + err))
 })

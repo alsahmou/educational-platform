@@ -43,7 +43,7 @@ class UserDashboard extends Component {
         })
       }
       else {
-        axios.get('http://localhost:5000/projects/' + username)
+        axios.get('http://localhost:5000/projects/getinfo', {withCredentials: true})
           .then(response => {
             this.setState({projects: response.data})
           })
