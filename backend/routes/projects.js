@@ -10,7 +10,7 @@ router.route('/getinfo').get((req, res) => {
 
 // Returns all graded projects associated with a specific username
 router.route('/getGraded').get((req, res) => {
-  Project.find({ username: req.session.username, isGraded: 'true' })
+  Project.find({ isGraded: 'true' })
     .then(projects => res.json(projects))
     .catch(err => res.status(400).json('Error: ' + err))
 })
