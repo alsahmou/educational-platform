@@ -9,34 +9,19 @@ export default class CreateProject extends Component {
 	constructor(props) {
 	    super(props);
 
-	    this.onSwitch = this.onSwitch.bind(this)
 	    this.updateDB = this.updateDB.bind(this)
-
-	    this.state = {
-	    	date: new Date(),
-	    	checked: false,
-	    	isGroup: false
-	    };
 	 }
 
 	componentDidMount() {
+		// Getting current users' username.
 		axios.get('http://localhost:5000/users/getinfo', {withCredentials: true}) 
-	      .then(response => {
-	        username = response.data.username
-	      })
-	      .catch(function (error) {
-	        console.log(error);
-	      })
+			.then(response => {
+				username = response.data.username
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
 	   }
-
-	// Handling the switch button.
-	onSwitch(checked) {
-		console.log(checked)
-	    this.setState({
-	    	checked: checked,
-	    	isGroup: !this.state.isGroup
-	    })
-	}
 
 	// Displaying an input textbox if the state of the switch changed.
 	displayInput = () => {
@@ -56,6 +41,16 @@ export default class CreateProject extends Component {
 
 	// Updating the DB with the new posted project.
 	updateDB = () => {
+		var isGroup = null
+		console.log(this.refs.numberOfTeam.value)
+
+		if(this.refs.numberOfTeam.value > 0) {
+			isGroup = true
+		}
+		else {
+			isGroup = false
+		}
+		// Creating new admin project object
 		const newAdminProject = {
 			username: username,
 			projectName: this.refs.projectTitle.value,
@@ -65,9 +60,11 @@ export default class CreateProject extends Component {
 			description: this.refs.description.value,
 			projectPoints: this.refs.points.value,
 			dueDate: this.refs.dueDate.value,
-			isGroup: this.state.checked,
+			isGroup: isGroup,
 			groupSize:this.refs.numberOfTeam.value
 		}
+		// Updating the data base with the new admin project.
+		// Redirecting the user to the newsfeed page then.
 		axios.post('http://localhost:5000/adminprojects/add', newAdminProject)
 		window.location.href = "/newsfeed"
 	}
@@ -112,8 +109,13 @@ export default class CreateProject extends Component {
 		          ref="dueDate" 
 		        />
 		        <br></br>
-		        <Switch onChange={this.onSwitch} checked={this.state.checked}/>		        
-	        	{this.displayInput()} 
+		        <input 
+			        type="text" 
+			        placeholder="numberOfTeam" 
+			        required
+			        ref="numberOfTeam" 
+			        />
+			    <br></br>
 	    	</form>
 		    	<Button type="button" onClick={this.updateDB}>Publish</Button>
 		        <Button type="button" href="/newsfeed">Cancel</Button>

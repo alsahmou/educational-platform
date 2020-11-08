@@ -14,7 +14,7 @@ export default class MyProjects extends Component {
 	  
 	componentDidMount() {
 		// Getting current users' username.
-		axios.get('http://localhost:5000/users/getinfo',  {withCredentials: true})
+		axios.get('http://localhost:5000/users/getinfo', {withCredentials: true}) 
 			.then(response => {
 				this.setState({
 					username: response.data.username
