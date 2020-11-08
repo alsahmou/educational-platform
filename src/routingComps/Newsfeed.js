@@ -92,7 +92,6 @@ export default class newsfeeds extends Component {
 		}
 		this.state.projects.map((project) => {
 			if(project._id == e.currentTarget.id){
-				// console.log(project.)
 				var today = new Date()
 			    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
 				const newProject = {
@@ -106,14 +105,9 @@ export default class newsfeeds extends Component {
 					projectPoints: 0,
 					isGraded: false
 				}
-				// console.log(newProject)
 				axios.post('http://localhost:5000/projects/add', newProject)
-				// console.log(date)
-				// console.log(project)
 			}
 		})
-		// console.log(this.state.projects(e.currentTarget])
-		// console.log(newUser.username)
 		axios.post('http://localhost:5000/adminProjects/adduser/' + projectId, newUser)
 	}
 
