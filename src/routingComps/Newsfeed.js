@@ -90,8 +90,30 @@ export default class newsfeeds extends Component {
 		const newUser = {
 			username: this.state.username
 		}
-		console.log(projectId)
-		console.log(newUser.username)
+		this.state.projects.map((project) => {
+			if(project._id == e.currentTarget.id){
+				// console.log(project.)
+				var today = new Date()
+			    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+				const newProject = {
+					username: this.state.username,
+					status: "Recently joined",
+					projectName: project.projectName,
+					submissionDate: String(date),
+					attachments: [],
+					karmaPoints: 0,
+					communicationPoints: 0,
+					projectPoints: 0,
+					isGraded: false
+				}
+				// console.log(newProject)
+				axios.post('http://localhost:5000/projects/add', newProject)
+				// console.log(date)
+				// console.log(project)
+			}
+		})
+		// console.log(this.state.projects(e.currentTarget])
+		// console.log(newUser.username)
 		axios.post('http://localhost:5000/adminProjects/adduser/' + projectId, newUser)
 	}
 

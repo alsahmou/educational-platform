@@ -3,10 +3,9 @@ import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
 import Switch from "react-switch";
 
-
 var username = null
 
-export default class newsfeeds extends Component {
+export default class CreateProject extends Component {
 	constructor(props) {
 	    super(props);
 
@@ -21,7 +20,7 @@ export default class newsfeeds extends Component {
 	 }
 
 	componentDidMount() {
-		axios.get('http://localhost:5000/users/getinfo') 
+		axios.get('http://localhost:5000/users/getinfo', {withCredentials: true}) 
 	      .then(response => {
 	        username = response.data.username
 	      })
@@ -29,6 +28,7 @@ export default class newsfeeds extends Component {
 	        console.log(error);
 	      })
 	   }
+
 	// Handling the switch button.
 	onSwitch(checked) {
 		console.log(checked)
@@ -37,6 +37,7 @@ export default class newsfeeds extends Component {
 	    	isGroup: !this.state.isGroup
 	    })
 	}
+
 	// Displaying an input textbox if the state of the switch changed.
 	displayInput = () => {
 		if(this.state.isGroup == true){
@@ -52,6 +53,7 @@ export default class newsfeeds extends Component {
 			</div>
 		}
 	}
+
 	// Updating the DB with the new posted project.
 	updateDB = () => {
 		const newAdminProject = {
@@ -73,7 +75,7 @@ export default class newsfeeds extends Component {
 	render() {
 		return (
 			<div>
-		        <h1>Create Project!</h1>
+		        <h1>Create Project.</h1>
 	        <form>  
 	    	    <input 
 		          type="text" 
@@ -113,7 +115,7 @@ export default class newsfeeds extends Component {
 		        <Switch onChange={this.onSwitch} checked={this.state.checked}/>		        
 	        	{this.displayInput()} 
 	    	</form>
-		    	<Button type="button" onClick={this.updateDB}>Submit</Button>
+		    	<Button type="button" onClick={this.updateDB}>Publish</Button>
 		        <Button type="button" href="/newsfeed">Cancel</Button>
 		    </div>
 		)
