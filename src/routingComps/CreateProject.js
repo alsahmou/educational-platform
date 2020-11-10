@@ -1,7 +1,6 @@
 import React, { Component} from 'react';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
-import Switch from "react-switch";
 
 var username = null
 
@@ -42,8 +41,6 @@ export default class CreateProject extends Component {
 	// Updating the DB with the new posted project.
 	updateDB = () => {
 		var isGroup = null
-		console.log(this.refs.numberOfTeam.value)
-
 		if(this.refs.numberOfTeam.value > 0) {
 			isGroup = true
 		}
