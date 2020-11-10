@@ -116,6 +116,7 @@ export default class CreateProject extends Component {
 			        ref="numberOfTeam" 
 			        />
 			    <br></br>
+			    
 	    	</form>
 		    	<Button type="button" onClick={this.updateDB}>Publish</Button>
 		        <Button type="button" href="/newsfeed">Cancel</Button>
