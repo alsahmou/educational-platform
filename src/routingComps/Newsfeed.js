@@ -120,7 +120,7 @@ export default class newsfeeds extends Component {
 	// Adding the Create button, if isAdmin, below the last rendered card.
 	displayCreateButton = (index, length) => {
 		if(index == length-1 && this.state.isAdmin == true){
-			return <Button type="button" href="/CreateProject">Create Project</Button>	
+			return <Button type="button" href="/create-project">Create Project</Button>	
 		}
 	}
 
