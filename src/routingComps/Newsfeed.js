@@ -58,6 +58,7 @@ export default class newsfeeds extends Component {
 						}
 					})
 		    	})
+		    	// Updating the state with new data.
 				this.setState({
 					projects: response.data,
 		        	disabledButtons: new Array(response.data.length).fill(false),
@@ -87,23 +88,44 @@ export default class newsfeeds extends Component {
 	updateDB = (e, i) => {
 		this.setDisabledButton(i)
 		var projectId = String(e.currentTarget.id)
+		// Creating a new user object.
 		const newUser = {
 			username: this.state.username
 		}
-		console.log(projectId)
-		console.log(newUser.username)
+		this.state.projects.map((project) => {
+			if(project._id == e.currentTarget.id){
+				// Getting the current date in this format:YYYY-MM-DD
+				var today = new Date()
+			    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+			    // Creating a new project object.
+				const newProject = {
+					username: this.state.username,
+					status: "Recently joined",
+					projectName: project.projectName,
+					submissionDate: String(date),
+					attachments: [],
+					karmaPoints: 0,
+					communicationPoints: 0,
+					projectPoints: 0,
+					isGraded: false
+				}
+				// Updating the data base with new project.
+				axios.post('http://localhost:5000/projects/add', newProject)
+			}
+		})
+		// Updating the data base with new registered user.
 		axios.post('http://localhost:5000/adminProjects/adduser/' + projectId, newUser)
 	}
 
 	// Adding the Create button, if isAdmin, below the last rendered card.
 	displayCreateButton = (index, length) => {
 		if(index == length-1 && this.state.isAdmin == true){
-			return <Button type="button" href="/CreateProject">Create Project</Button>	
+			return <Button type="button" href="/create-project">Create Project</Button>	
 		}
 	}
 
-	//Adding Join button for non admin users.
-	displayJoinButton = (index, project) =>{
+	// Adding Join button for non admin users.
+	displayJoinButton = (index, project) => {
 		if(this.state.isAdmin == false){
 			return <Button type= "button" onClick={e => {this.updateDB(e, index)}} id={project._id} disabled={buttons[index]}>Join Project</Button>
 		}
