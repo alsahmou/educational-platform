@@ -52,12 +52,14 @@ export default class CreateProject extends Component {
 			username: username,
 			projectName: this.refs.projectTitle.value,
 			projectPicture: this.refs.projectTitle.value,
+			// Maximum number of students can apply.
 			participantsNumber: this.refs.numberOfParticipants.value,
 			users: [],
 			description: this.refs.description.value,
 			projectPoints: this.refs.points.value,
 			dueDate: this.refs.dueDate.value,
 			isGroup: isGroup,
+			// Maximum number of team members.
 			groupSize:this.refs.numberOfTeam.value
 		}
 		// Updating the data base with the new admin project.
