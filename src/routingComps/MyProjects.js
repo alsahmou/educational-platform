@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
 
+// This page aims to list all the projects joined by the current user.
+// The Projects page is where users can be able to see ones submissions and submit their work there.
+
 export default class MyProjects extends Component {
 	constructor(props) {
 	    super(props);
