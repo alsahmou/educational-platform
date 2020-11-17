@@ -22,9 +22,11 @@ class Login extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     const { username, password } = this.state
+    let ip = window.location.hostname
+    console.log('ip is', ip)
 
     //Sending an axios request to get the username from the DB 
-    axios.get('http://167.172.238.2:5000/users/' + username + '/' + password, {withCredentials: true})
+    axios.get('http://'+ ip+ ':5000/users/' + username + '/' + password, {withCredentials: true})
       .then(res => {
         // If the result is null then the username doesn't exist
         if (res.data.length === 0) {
@@ -32,7 +34,7 @@ class Login extends Component {
         }
         else {
           console.log('correct password')
-          window.location = '/user-dashboard'
+          //window.location = '/user-dashboard'
         }
       } 
     )

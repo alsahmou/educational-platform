@@ -36,13 +36,6 @@ router.route('/logout').get((req, res) => {
 // Session creation with session length imported from .env file
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: parseInt(process.env.SESSION_LENGTH) } }))
 
-// Console logs for server deployment testing
-console.log('express is', express)
-console.log('cors is', cors)
-console.log('mongoose is', mongoose)
-console.log('session is', session)
-console.log('router is', router)
-
 // Using the routes inside the applicatioj
 app.use(router)
 app.use('/users', userRouter)
