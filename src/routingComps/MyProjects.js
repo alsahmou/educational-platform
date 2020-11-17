@@ -17,7 +17,9 @@ export default class MyProjects extends Component {
 	  
 	componentDidMount() {
 		// Getting current users' username.
-		axios.get('http://localhost:5000/users/getinfo', {withCredentials: true}) 
+		let ip = window.location.hostname
+
+		axios.get('http://' + ip + ':5000/users/getinfo', {withCredentials: true}) 
 			.then(response => {
 				this.setState({
 					username: response.data.username
@@ -27,7 +29,7 @@ export default class MyProjects extends Component {
 		        console.log(error);
 		    })
 		// Fetching all users' projects.
-		axios.get('http://localhost:5000/projects/getinfo', {withCredentials: true}) 
+		axios.get('http://' + ip + ':5000/projects/getinfo', {withCredentials: true}) 
 		    .then(response => {
 		        this.setState({projects: response.data})
 	        })

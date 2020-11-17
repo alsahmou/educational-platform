@@ -20,7 +20,9 @@ export default class newsfeeds extends Component {
 
 	componentDidMount() {
 		// Getting the required info of the current user.
-		axios.get('http://localhost:5000/users/getinfo',  {withCredentials: true})
+		let ip = window.location.hostname
+
+		axios.get('http://' + ip + ':5000/users/getinfo',  {withCredentials: true})
 			.then(response => {
 				this.setState({
 					isAdmin: response.data.isAdmin,
@@ -33,7 +35,7 @@ export default class newsfeeds extends Component {
 		// Ensuring that the value of the username is fetched right.
 		setTimeout(() => 
 		// Getting the posted projects.
-	 	axios.get('http://localhost:5000/adminProjects/', {withCredentials: true}) 
+	 	axios.get('http://' + ip + ':5000/adminProjects/', {withCredentials: true}) 
 		    .then(response => {
 		        var projectsIds = []
 		        var indices = []
@@ -86,6 +88,8 @@ export default class newsfeeds extends Component {
 
 	// Updating the database with the new enrolled user.
 	updateDB = (e, i) => {
+		let ip = window.location.hostname
+
 		this.setDisabledButton(i)
 		var projectId = String(e.currentTarget.id)
 		// Creating a new user object.
@@ -110,11 +114,11 @@ export default class newsfeeds extends Component {
 					isGraded: false
 				}
 				// Updating the data base with new project.
-				axios.post('http://localhost:5000/projects/add', newProject)
+				axios.post('http://' + ip + ':5000/projects/add', newProject)
 			}
 		})
 		// Updating the data base with new registered user.
-		axios.post('http://localhost:5000/adminProjects/adduser/' + projectId, newUser)
+		axios.post('http://' + ip + ':5000/adminProjects/adduser/' + projectId, newUser)
 	}
 
 	// Adding the Create button, if isAdmin, below the last rendered card.

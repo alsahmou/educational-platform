@@ -34,7 +34,7 @@ class Login extends Component {
         }
         else {
           console.log('correct password')
-          //window.location = '/user-dashboard'
+          window.location = '/user-dashboard'
         }
       } 
     )
