@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const Project = require('../models/project.model')
 
-// Returns all projects associated with a specific username
+// Returns all projects associated with a specific username.
 router.route('/getinfo').get((req, res) => {
   Project.find({ username: req.session.username })
     .then(projects => res.json(projects))
@@ -35,6 +35,36 @@ router.route('/add').post((req, res) => {
   newProject.save()
     .then(() => res.json('Project added!'))
     .catch(err => res.status(400).json('Error: ' + err))
+})
+
+// Recieving the uploaded file and saving it in any desired directory.
+router.route('/upload-file').post((req, res) => {
+  var file = req.files.file
+  console.log(file)
+  file.mv('../backend/storage/' + file.name, function(err){
+    if(err){
+      res.json({"status":"file not uploaded"})
+    }
+    else{
+      res.json({"status":"file has been uploaded"})
+    }
+  })
+})
+
+// Checks if the file had uploaded before or not.
+// If yes, it does not duplicate its name in the DB.
+// Otherwise, it appends to the attachments array and upadates the DB.
+router.route('/submit-files/:id').post((req, res) => {   
+  Project.findById(req.params.id)
+    .then(project => {
+      if (project.attachments.indexOf(req.body.attachment) == -1) {
+        project.attachments = project.attachments.concat(req.body.attachment);
+        project.save()
+        .then(() => res.json('Attachments updated!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+      }
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
 })
 
 module.exports = router

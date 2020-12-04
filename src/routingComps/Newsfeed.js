@@ -32,43 +32,43 @@ export default class newsfeeds extends Component {
 		    })
 		// Ensuring that the value of the username is fetched right.
 		setTimeout(() => 
-		// Getting the posted projects.
-	 	axios.get('http://localhost:5000/adminProjects/', {withCredentials: true}) 
-		    .then(response => {
-		        var projectsIds = []
-		        var indices = []
-		        buttons = new Array(response.data.length).fill(false)
-		    	response.data.reverse().map((project, index) => {
-		    		// Figuering out the projects that the current user is enrolled in.
-		    		// Saving the index of these projects to disable the associated join button.
-					project.users.map((username) => {
-						if(username == this.state.username){
-							projectsIds = projectsIds.concat(project._id)
-							indices = indices.concat(index)
-						}	
+			// Getting the posted projects.
+		 	axios.get('http://localhost:5000/adminProjects/', {withCredentials: true}) 
+			    .then(response => {
+			        var projectsIds = []
+			        var indices = []
+			        buttons = new Array(response.data.length).fill(false)
+			    	response.data.reverse().map((project, index) => {
+			    		// Figuering out the projects that the current user is enrolled in.
+			    		// Saving the index of these projects to disable the associated join button.
+						project.users.map((username) => {
+							if(username == this.state.username){
+								projectsIds = projectsIds.concat(project._id)
+								indices = indices.concat(index)
+							}	
+						})
+					})
+		    		// Disabling the join buttons associated with the joined projects of the current user.
+			    	indices.map((indx) => {
+			    		buttons.map((button, index) => {
+							if(indx == index){
+								let button = buttons
+								button[index] = true
+					buttons = button
+							}
+						})
+			    	})
+			    	// Updating the state with new data.
+					this.setState({
+						projects: response.data,
+			        	disabledButtons: new Array(response.data.length).fill(false),
+						projectsIds:projectsIds
 					})
 				})
-	    		// Disabling the join buttons associated with the joined projects of the current user.
-		    	indices.map((indx) => {
-		    		buttons.map((button, index) => {
-						if(indx == index){
-							let button = buttons
-							button[index] = true
-				buttons = button
-						}
-					})
-		    	})
-		    	// Updating the state with new data.
-				this.setState({
-					projects: response.data,
-		        	disabledButtons: new Array(response.data.length).fill(false),
-					projectsIds:projectsIds
-				})
-			})
-		    .catch(function (error) {
-		        console.log(error);
-		    })
-			,2000)
+			    .catch(function (error) {
+			        console.log(error);
+			    })
+		,2000)
 	}
 
 	// Modifying the state of a particulare button to disabled.

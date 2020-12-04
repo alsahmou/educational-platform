@@ -1,9 +1,12 @@
 // Variables declaration
 const express = require('express')
+const fileUpload = require('express-fileupload');
 const cors = require('cors')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const router = require('express').Router()
+const crypto = require('crypto')
+const path = require('path')
 
 require('dotenv').config()
 
@@ -11,8 +14,11 @@ require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 5000
 
+
 app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
+app.use(fileUpload());
+app.use(express.static(process.env.STORAGE_DIRECTORY));
 
 // MongoDB connection, uri is captured from .env file where the key is stored then mongoose connects using it
 const uri = process.env.ATLAS_URI
@@ -36,7 +42,7 @@ router.route('/logout').get((req, res) => {
 // Session creation with session length imported from .env file
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: parseInt(process.env.SESSION_LENGTH) } }))
 
-// Using the routes inside the applicatioj
+// Using the routes inside the application
 app.use(router)
 app.use('/users', userRouter)
 app.use('/projects', projectRouter)
