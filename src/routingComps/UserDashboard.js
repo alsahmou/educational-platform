@@ -15,7 +15,7 @@ class UserDashboard extends Component {
       isAdmin: null, 
       isEditView: false,
       userId: null,
-      ip : window.location.hostname
+      ip: window.location.hostname
     }
   }
 
