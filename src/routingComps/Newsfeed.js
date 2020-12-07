@@ -161,9 +161,6 @@ export default class newsfeeds extends Component {
 			</div>
 		)
 	}
-<<<<<<< HEAD
 }
     
-=======
-}
->>>>>>> master
+

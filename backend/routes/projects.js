@@ -4,7 +4,6 @@ const Project = require('../models/project.model')
 // Returns all projects associated with a specific username
 router.route('/getinfo').get((req, res) => {
   Project.find({ username: req.session.username })
-<<<<<<< HEAD
     .then(projects => res.json(projects))
     .catch(err => res.status(400).json('Error: ' + err))
 })
@@ -12,8 +11,6 @@ router.route('/getinfo').get((req, res) => {
 // Returns all graded projects associated with a specific username
 router.route('/getGraded').get((req, res) => {
   Project.find({ isGraded: 'true' })
-=======
->>>>>>> master
     .then(projects => res.json(projects))
     .catch(err => res.status(400).json('Error: ' + err))
 })
