@@ -119,13 +119,14 @@ export default class LeaderboardComp extends Component {
     this.state = {
       tablePoints: [],
       usersPoints: {},
-      usersPointsArray: []
+      usersPointsArray: [],
+      ip: window.location.hostname
     }
   }
 
   componentDidMount () {
     // Axios get request to receive all graded projects and place them in the state after being processed by tallyUsersPoints()
-    axios.get('http://localhost:5000/projects/getGraded')
+    axios.get('http://'+this.state.ip +':5000/projects/getGraded')
       .then(response => {
         this.setState({ tablePoints: this.tallyUsersPoints(response.data) })
       })

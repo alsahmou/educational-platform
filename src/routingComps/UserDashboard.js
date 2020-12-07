@@ -44,7 +44,6 @@ class UserDashboard extends Component {
         })
       }
       else {
-        axios.get('http://localhost:5000/projects/getinfo', {withCredentials: true})
         axios.get('http://'+this.state.ip+':5000/projects/getinfo', {withCredentials: true})
           .then(response => {
             this.setState({projects: response.data})
