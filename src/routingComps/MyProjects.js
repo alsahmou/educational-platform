@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
+import { compareSync } from 'bcryptjs';
 
 // Users will be able to check out all the enrolled projects.
 // They will be able to submit their work here too.
@@ -14,15 +15,16 @@ export default class MyProjects extends Component {
 	    	username: null,
 	    	isClicked: false,
 	    	file: null,
-	    	projectID: null
+			projectID: null,
+			adminProjects: [],
+			ip: window.location.hostname
 	    };
 	 }
 	  
 	componentDidMount() {
 		// Getting current users' username.
-		let ip = window.location.hostname
 
-		axios.get('http://' + ip + ':5000/users/getinfo', {withCredentials: true}) 
+		axios.get('http://' + this.state.ip + ':5000/users/getinfo', {withCredentials: true}) 
 			.then(response => {
 				this.setState({
 					username: response.data.username,
@@ -34,7 +36,7 @@ export default class MyProjects extends Component {
 		    })
 		// Fetching all users' projects.
 		setTimeout(() => 
-			axios.get('http://'+ ip + ':5000/projects/getinfo', {withCredentials: true}) 
+			axios.get('http://'+ this.state.ip + ':5000/projects/getinfo', {withCredentials: true}) 
 			    .then(response => {
 			        this.setState({projects: response.data})
 		        })
@@ -43,6 +45,18 @@ export default class MyProjects extends Component {
 			    })
 		,2000)
 	}
+
+	gradeProjectsComponent = () => {
+		if(this.state.isAdmin == true){
+			return(
+				<div>
+					<h1>Grade Projects</h1>
+			</div>
+			)
+	}
+}
+
+
 
 	// Creating a card component for each displayed project.
 	createProjectComponent = (title, username, points_awarded, status, id) => {
@@ -147,6 +161,7 @@ export default class MyProjects extends Component {
 	  					</div>		
 	  					}			 	
 					})}
+					{this.gradeProjectsComponent()}
 	         	</div>
 	  		)
 		}
