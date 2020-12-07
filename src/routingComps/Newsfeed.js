@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
-import Cookies from 'js-cookie'
 
 var buttons = []
+var user = null
 
 export default class newsfeeds extends Component {
 	constructor(props) {
@@ -19,8 +19,10 @@ export default class newsfeeds extends Component {
 	 }
 
 	componentDidMount() {
-		// Getting the isAdmin info of the current user.
-		axios.get('http://localhost:5000/users/getinfo',  {withCredentials: true})
+		// Getting the required info of the current user.
+		let ip = window.location.hostname
+
+		axios.get('http://' + ip + ':5000/users/getinfo',  {withCredentials: true})
 			.then(response => {
 				this.setState({
 					isAdmin: response.data.isAdmin,
@@ -30,15 +32,17 @@ export default class newsfeeds extends Component {
 			.catch(function (error) {
 		        console.log(error);
 		    })
+		// Ensuring that the value of the username is fetched right.
+		setTimeout(() => 
 		// Getting the posted projects.
-	 	axios.get('http://localhost:5000/adminProjects/', {withCredentials: true}) 
+	 	axios.get('http://' + ip + ':5000/adminProjects/', {withCredentials: true}) 
 		    .then(response => {
 		        var projectsIds = []
 		        var indices = []
 		        buttons = new Array(response.data.length).fill(false)
 		    	response.data.reverse().map((project, index) => {
-	    		// Figuering out the projects that the current user is enrolled in.
-	    		// Saving the index of the joined projects to be used in disabling the associated join button.
+		    		// Figuering out the projects that the current user is enrolled in.
+		    		// Saving the index of these projects to disable the associated join button.
 					project.users.map((username) => {
 						if(username == this.state.username){
 							projectsIds = projectsIds.concat(project._id)
@@ -56,6 +60,7 @@ export default class newsfeeds extends Component {
 						}
 					})
 		    	})
+		    	// Updating the state with new data.
 				this.setState({
 					projects: response.data,
 		        	disabledButtons: new Array(response.data.length).fill(false),
@@ -65,7 +70,9 @@ export default class newsfeeds extends Component {
 		    .catch(function (error) {
 		        console.log(error);
 		    })
+			,2000)
 	}
+
 	// Modifying the state of a particulare button to disabled.
 	setDisabledButton = (i) => {
 		this.state.disabledButtons.map((button, index) => {
@@ -77,34 +84,52 @@ export default class newsfeeds extends Component {
 				})
 			}
 		})
-
 	}
+
 	// Updating the database with the new enrolled user.
 	updateDB = (e, i) => {
+		let ip = window.location.hostname
+
 		this.setDisabledButton(i)
 		var projectId = String(e.currentTarget.id)
-		axios.get('http://localhost:5000/users/getinfo',  {withCredentials: true})
-			.then(response => {
-				const newUser = {
-					username: response.data.username
+		// Creating a new user object.
+		const newUser = {
+			username: this.state.username
+		}
+		this.state.projects.map((project) => {
+			if(project._id == e.currentTarget.id){
+				// Getting the current date in this format:YYYY-MM-DD
+				var today = new Date()
+			    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+			    // Creating a new project object.
+				const newProject = {
+					username: this.state.username,
+					status: "Recently joined",
+					projectName: project.projectName,
+					submissionDate: String(date),
+					attachments: [],
+					karmaPoints: 0,
+					communicationPoints: 0,
+					projectPoints: 0,
+					isGraded: false
 				}
-
-				console.log(newUser.username)
-				// var url = 'http://localhost:5000/adminProjects/adduser/' + projectId
-				axios.post('http://localhost:5000/adminProjects/adduser/' + projectId, newUser)
-			})
-			.catch(function (error) {
-		        console.log(error);
-		    })
+				// Updating the data base with new project.
+				axios.post('http://' + ip + ':5000/projects/add', newProject)
+			}
+		})
+		// Updating the data base with new registered user.
+		axios.post('http://' + ip + ':5000/adminProjects/adduser/' + projectId, newUser)
 	}
-	// Adding the Create button, if isAdmin, after the last rendered card.
+
+	// Adding the Create button, if isAdmin, below the last rendered card.
 	displayCreateButton = (index, length) => {
 		if(index == length-1 && this.state.isAdmin == true){
-			return <Button type="button" href="/CreateProject">Create Project</Button>	
+			return <Button type="button" href="/create-project">Create Project</Button>	
 		}
 	}
-	//Adding Join button for non admin users.
-	displayJoinButton = (index, project) =>{
+
+	// Adding Join button for non admin users.
+	displayJoinButton = (index, project) => {
 		if(this.state.isAdmin == false){
 			return <Button type= "button" onClick={e => {this.updateDB(e, index)}} id={project._id} disabled={buttons[index]}>Join Project</Button>
 		}
@@ -113,12 +138,10 @@ export default class newsfeeds extends Component {
 	render() {
 		const {projects} = this.state; 
 		const {disabledButtons} = this.state;
-		var indx = 0 
-
+		var indx = 0
 		return (
-			<div>	
+			<div>
 				{projects.map((project, index) => {
-					console.log(project)
 					indx = index
 					return <div key={index}>
 						<Card style={{ width: '100%' }}>
@@ -138,5 +161,9 @@ export default class newsfeeds extends Component {
 			</div>
 		)
 	}
+<<<<<<< HEAD
 }
     
+=======
+}
+>>>>>>> master

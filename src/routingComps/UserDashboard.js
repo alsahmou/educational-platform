@@ -14,14 +14,15 @@ class UserDashboard extends Component {
       projects: [],
       isAdmin: null, 
       isEditView: false,
-      userId: null
+      userId: null,
+      ip : window.location.hostname
     }
   }
 
   // Get request is sent to the server to return responses with the user's info by setting the state's parameters 
   componentDidMount () {
     const username  = null
-    axios.get('http://localhost:5000/users/getinfo', {withCredentials: true})
+    axios.get('http://'+this.state.ip+':5000/users/getinfo', {withCredentials: true})
       .then(response => {
         if (response.data == null){
           console.log('no response')
@@ -34,7 +35,7 @@ class UserDashboard extends Component {
         userId: response.data._id
       })
       if (this.state.isAdmin == 'true') {
-        axios.get('http://localhost:5000/adminProjects/' + username)
+        axios.get('http://'+this.state.ip+':5000/adminProjects/' + username)
         .then(response => {
           this.setState({projects: response.data})
         })
@@ -43,7 +44,11 @@ class UserDashboard extends Component {
         })
       }
       else {
+<<<<<<< HEAD
         axios.get('http://localhost:5000/projects/getinfo', {withCredentials: true})
+=======
+        axios.get('http://'+this.state.ip+':5000/projects/getinfo', {withCredentials: true})
+>>>>>>> master
           .then(response => {
             this.setState({projects: response.data})
           })
@@ -67,7 +72,7 @@ class UserDashboard extends Component {
       aboutMe: this.refs.aboutMeInput.value,
       profilePicture: this.refs.profilePictureInput.value
     }
-    axios.post('http://localhost:5000/users/update/' + this.state.userId, user)
+    axios.post('http://'+this.state.ip+':5000/users/update/' + this.state.userId, user)
       .then(resposnse => {
         this.setState({
           isEditView: false, 
@@ -185,7 +190,7 @@ class UserDashboard extends Component {
   handleLogOut = (event) => {
     Cookies.remove()
 
-    axios.get('http://localhost:5000/logout', {withCredentials: true})
+    axios.get('http://'+this.state.ip+':5000/logout', {withCredentials: true})
       .then(res => {
         console.log('axios in logout')
         Cookies.remove()

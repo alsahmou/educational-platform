@@ -52,8 +52,10 @@ router.route('/getinfo').get((req, res) => {
 // Session username is set after a user is found to the user's username and the password is confirmed
 // Bcrypt compare is used to compare input password with encrypted password in the DB
 router.route('/:username/:password').get((req, res) => {
+  console.log('Login router working')
   User.find({ username: req.params.username })
     .then(user => {
+      console.log('login response found', user)
       Bcrypt.compare(req.params.password, user[0].password, function (err, response) {
         if (err) {
           console.log('error')

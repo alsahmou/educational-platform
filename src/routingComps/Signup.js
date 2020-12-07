@@ -36,6 +36,8 @@ class Signup extends Component {
   
   // Verifying that the password and password confirmation input are equal, returns an alert if not
   handleSubmit = (event) => {
+    let ip = window.location.hostname
+
     event.preventDefault()
     const { username, password, passwordConfirmation } = this.state
     if (username.length < 6) {
@@ -51,7 +53,7 @@ class Signup extends Component {
       const user = this.state
       console.log('User submitted', user)
 
-      axios.post('http://localhost:5000/users/add', user)
+      axios.post('http://'+ ip +':5000/users/add', user)
         .then(res => console.log(res.data))
     }
   }

@@ -1,42 +1,28 @@
 import React, { Component} from 'react';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
-import Switch from "react-switch";
-
 
 var username = null
 
-export default class newsfeeds extends Component {
+export default class CreateProject extends Component {
 	constructor(props) {
 	    super(props);
 
-	    this.onSwitch = this.onSwitch.bind(this)
 	    this.updateDB = this.updateDB.bind(this)
-
-	    this.state = {
-	    	date: new Date(),
-	    	checked: false,
-	    	isGroup: false
-	    };
 	 }
 
 	componentDidMount() {
-		axios.get('http://localhost:5000/users/getinfo') 
-	      .then(response => {
-	        username = response.data.username
-	      })
-	      .catch(function (error) {
-	        console.log(error);
-	      })
+		// Getting current users' username.
+		let ip = window.location.hostname
+		axios.get('http://' + ip + ':5000/users/getinfo', {withCredentials: true}) 
+			.then(response => {
+				username = response.data.username
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
 	   }
-	// Handling the switch button.
-	onSwitch(checked) {
-		console.log(checked)
-	    this.setState({
-	    	checked: checked,
-	    	isGroup: !this.state.isGroup
-	    })
-	}
+
 	// Displaying an input textbox if the state of the switch changed.
 	displayInput = () => {
 		if(this.state.isGroup == true){
@@ -52,28 +38,42 @@ export default class newsfeeds extends Component {
 			</div>
 		}
 	}
+
 	// Updating the DB with the new posted project.
 	updateDB = () => {
+		var isGroup = null
+		if(this.refs.numberOfTeam.value > 0) {
+			isGroup = true
+		}
+		else {
+			isGroup = false
+		}
+		// Creating new admin project object
 		const newAdminProject = {
 			username: username,
 			projectName: this.refs.projectTitle.value,
 			projectPicture: this.refs.projectTitle.value,
+			// Maximum number of students can apply.
 			participantsNumber: this.refs.numberOfParticipants.value,
 			users: [],
 			description: this.refs.description.value,
 			projectPoints: this.refs.points.value,
 			dueDate: this.refs.dueDate.value,
-			isGroup: this.state.checked,
+			isGroup: isGroup,
+			// Maximum number of team members.
 			groupSize:this.refs.numberOfTeam.value
 		}
-		axios.post('http://localhost:5000/adminprojects/add', newAdminProject)
+		// Updating the data base with the new admin project.
+		// Redirecting the user to the newsfeed page then.
+		let ip = window.location.hostname
+		axios.post('http://' + ip +':5000/adminprojects/add', newAdminProject)
 		window.location.href = "/newsfeed"
 	}
 	
 	render() {
 		return (
 			<div>
-		        <h1>Create Project!</h1>
+		        <h1>Create Project.</h1>
 	        <form>  
 	    	    <input 
 		          type="text" 
@@ -110,10 +110,16 @@ export default class newsfeeds extends Component {
 		          ref="dueDate" 
 		        />
 		        <br></br>
-		        <Switch onChange={this.onSwitch} checked={this.state.checked}/>		        
-	        	{this.displayInput()} 
+		        <input 
+			        type="text" 
+			        placeholder="numberOfTeam" 
+			        required
+			        ref="numberOfTeam" 
+			        />
+			    <br></br>
+			    
 	    	</form>
-		    	<Button type="button" onClick={this.updateDB}>Submit</Button>
+		    	<Button type="button" onClick={this.updateDB}>Publish</Button>
 		        <Button type="button" href="/newsfeed">Cancel</Button>
 		    </div>
 		)
