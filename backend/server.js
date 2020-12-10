@@ -14,6 +14,14 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Creating a storage folder to store the users attachments
+var mkdirp = require("mkdirp");
+
+mkdirp("storage", function (err) {
+  if (err) console.error(err);
+  else console.log("Done!");
+});
+
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(fileUpload());
