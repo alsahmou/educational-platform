@@ -4,8 +4,8 @@ This website allows tutors to assign their students projects and assigments to c
 
 # Setup
 
-- Install ReactJS and Node.js on your local machine by following these steps https://medium.com/@DanielSayidi/install-and-setup-react-app-on-ubuntu-18-04-3-lts-fcd2c875885a.
-- Create a new folder with the name storage to store files uploaded by users
+- Install ReactJS and Node.js on your local machine by following these steps https://medium.com/@DanielSayidi/
+  install-and-setup-react-app-on-ubuntu-18-04-3-lts-fcd2c875885a.
 - Initialize a mongodb data base by following the next steps:
   - Create a mongodb Atlas account at https://www.mongodb.com/cloud/atlas.
   - Create a new project inside your by clicking on 'New Project'
