@@ -50,7 +50,6 @@ class Signup extends Component {
       alert("Passwords do not match!");
     } else {
       const user = this.state;
-      console.log("User submitted", user);
 
       axios
         .post("http://" + ip + ":5000/users/add", user)
